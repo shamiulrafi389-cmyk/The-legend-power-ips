@@ -70,6 +70,16 @@
             text-shadow: 0 0 20px rgba(242, 125, 38, 0.4);
         }
 
+        @keyframes gradient-text {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .animate-gradient-text {
+            animation: gradient-text 3s ease infinite;
+        }
+
         /* Custom scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #000; }
@@ -82,13 +92,15 @@
 
     <script type="text/babel">
         const { useState, useEffect, useMemo } = React;
-        const MotionGlobal = window.Motion || window.FramerMotion;
+        const MotionGlobal = window.Motion || window.FramerMotion || { motion: ({ children }) => <div>{children}</div>, AnimatePresence: ({ children }) => <>{children}</> };
         const { motion, AnimatePresence } = MotionGlobal;
 
         // Custom Lucide Icon Component for CDN version
         const Icon = ({ name, size = 20, className = "" }) => {
             useEffect(() => {
-                lucide.createIcons();
+                if (window.lucide) {
+                    window.lucide.createIcons();
+                }
             }, [name]);
             return <i data-lucide={name} className={className} style={{ width: size, height: size }}></i>;
         };
@@ -98,18 +110,26 @@
                 id: "1", 
                 name: "Legend IPS 600VA", 
                 va: 600, 
-                watts: 500, 
+                watts: 480, 
                 price: 12500, 
-                img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800",
+                img: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&q=80&w=800",
                 stockStatus: "In Stock",
                 stockQuantity: 15,
                 specs: {
-                    surgeProtection: "3000 Joules",
-                    transferTime: "< 10ms",
-                    efficiency: "> 95%",
-                    operatingTemp: "0°C - 45°C",
-                    batteryType: "Deep Cycle Lead Acid",
-                    waveForm: "Pure Sine Wave"
+                    model: "LP-600V4",
+                    capacity: "600VA",
+                    power: "480 Watt",
+                    inputVoltage: "140V - 275V AC (Single Phase)",
+                    outputVoltage: "220V ± 10%",
+                    waveForm: "Pure Sine Wave",
+                    frequency: "50 Hz ± 0.5 Hz",
+                    transferTime: "≤ 10 millisecond (UPS Mode)",
+                    batteryVoltage: "12V DC",
+                    chargingCurrent: "10A - 15A (Smart)",
+                    efficiency: "> 85%",
+                    protection: "Short Circuit, Overload, Battery Low, Overcharge",
+                    display: "LCD/LED Status Interface",
+                    cooling: "Smart Cooling Fan (Noise-controlled)"
                 }
             },
             { 
@@ -122,12 +142,20 @@
                 stockStatus: "Low Stock",
                 stockQuantity: 3,
                 specs: {
-                    surgeProtection: "4500 Joules",
-                    transferTime: "< 8ms",
-                    efficiency: "> 96%",
-                    operatingTemp: "0°C - 50°C",
-                    batteryType: "Lead Acid / Lithium Compatible",
-                    waveForm: "Pure Sine Wave"
+                    model: "LP-1000V4",
+                    capacity: "1000VA",
+                    power: "800 Watt",
+                    inputVoltage: "140V - 275V AC (Single Phase)",
+                    outputVoltage: "220V ± 10%",
+                    waveForm: "Pure Sine Wave",
+                    frequency: "50 Hz ± 0.5 Hz",
+                    transferTime: "≤ 10 millisecond (UPS Mode)",
+                    batteryVoltage: "12V DC / 24V Support",
+                    chargingCurrent: "10A - 15A (Adjustable)",
+                    efficiency: "> 85%",
+                    protection: "Advanced Multi-Guard System",
+                    display: "Dual Mode LCD Display",
+                    cooling: "Smart Cooling Fan (Noise-controlled)"
                 }
             },
             { 
@@ -140,12 +168,20 @@
                 stockStatus: "In Stock",
                 stockQuantity: 8,
                 specs: {
-                    surgeProtection: "6000 Joules",
-                    transferTime: "< 5ms",
-                    efficiency: "> 97%",
-                    operatingTemp: "0°C - 55°C",
-                    batteryType: "Heavy Duty Tubular",
-                    waveForm: "Pure Sine Wave"
+                    model: "LP-1500V4",
+                    capacity: "1500VA",
+                    power: "1200 Watt",
+                    inputVoltage: "140V - 275V AC (Single Phase)",
+                    outputVoltage: "220V ± 10%",
+                    waveForm: "Pure Sine Wave",
+                    frequency: "50 Hz ± 0.5 Hz",
+                    transferTime: "≤ 10 millisecond (UPS Mode)",
+                    batteryVoltage: "24V DC",
+                    chargingCurrent: "15A (Rapid Charge)",
+                    efficiency: "> 85%",
+                    protection: "Enterprise Level Protection Suite",
+                    display: "High-Resolution LCD Matrix",
+                    cooling: "Dual-Flow Smart Cooling"
                 }
             },
             { 
@@ -158,12 +194,20 @@
                 stockStatus: "Out of Stock",
                 stockQuantity: 0,
                 specs: {
-                    surgeProtection: "8000 Joules",
-                    transferTime: "< 4ms",
-                    efficiency: "> 97.5%",
-                    operatingTemp: "-5°C - 55°C",
-                    batteryType: "Smart Hybrid Interface",
-                    waveForm: "Pure Sine Wave"
+                    model: "LP-2000V4",
+                    capacity: "2000VA",
+                    power: "1600 Watt",
+                    inputVoltage: "140V - 275V AC (Single Phase)",
+                    outputVoltage: "220V ± 10%",
+                    waveForm: "Pure Sine Wave",
+                    frequency: "50 Hz ± 0.5 Hz",
+                    transferTime: "≤ 10 millisecond (UPS Mode)",
+                    batteryVoltage: "24V DC / 36V Support",
+                    chargingCurrent: "15A - 20A (Adjustable)",
+                    efficiency: "> 85%",
+                    protection: "Total SystemGuard Interface",
+                    display: "Full Graphic LCD Dashboard",
+                    cooling: "Turbo-Smart Active Cooling"
                 }
             },
             { 
@@ -176,12 +220,20 @@
                 stockStatus: "In Stock",
                 stockQuantity: 12,
                 specs: {
-                    surgeProtection: "10000 Joules",
-                    transferTime: "Seamless (Zero Gap)",
-                    efficiency: "> 98%",
-                    operatingTemp: "Industrial Grade Specs",
-                    batteryType: "Lithium-Iron Phosphate Support",
-                    waveForm: "Pure Sine Wave"
+                    model: "LP-3000V4",
+                    capacity: "3000VA",
+                    power: "2400 Watt",
+                    inputVoltage: "140V - 275V AC (Single Phase)",
+                    outputVoltage: "220V ± 10%",
+                    waveForm: "Pure Sine Wave",
+                    frequency: "50 Hz ± 0.5 Hz",
+                    transferTime: "≤ 8 millisecond (UPS Level)",
+                    batteryVoltage: "48V DC",
+                    chargingCurrent: "20A (High Torque)",
+                    efficiency: "> 85%",
+                    protection: "Industrial Circuit Protection",
+                    display: "Smart Touch-Control Graphic LCD",
+                    cooling: "Active Thermal Management System"
                 }
             },
             { 
@@ -194,12 +246,20 @@
                 stockStatus: "In Stock",
                 stockQuantity: 5,
                 specs: {
-                    surgeProtection: "Enterprise Standard",
-                    transferTime: "Real-time Sync",
-                    efficiency: "Peak Optimization (>98.5%)",
-                    operatingTemp: "Extreme Environment Ready",
-                    batteryType: "External Array Capable",
-                    waveForm: "Pure Sine Wave"
+                    model: "LP-4000V4",
+                    capacity: "4000VA",
+                    power: "3200 Watt",
+                    inputVoltage: "140V - 275V AC (Single Phase)",
+                    outputVoltage: "220V ± 5%",
+                    waveForm: "Pure Sine Wave",
+                    frequency: "50 Hz ± 0.5 Hz",
+                    transferTime: "≤ 5 millisecond (Critical Grade)",
+                    batteryVoltage: "48V / 72V DC Support",
+                    chargingCurrent: "25A (Industrial Grade)",
+                    efficiency: "> 85%",
+                    protection: "Professional Multi-Stage Guard",
+                    display: "Enterprise Dashboard LCD",
+                    cooling: "Dual-Array Smart Cooling Fans"
                 }
             },
             { 
@@ -212,15 +272,77 @@
                 stockStatus: "Low Stock",
                 stockQuantity: 2,
                 specs: {
-                    surgeProtection: "Ultimate Protection",
-                    transferTime: "Instantaneous",
-                    efficiency: "Premium Efficiency (>99%)",
-                    operatingTemp: "Liquid-cooled Chassis Capable",
-                    batteryType: "Rack Mount Scalable",
-                    waveForm: "Pure Sine Wave"
+                    model: "LP-5000V4",
+                    capacity: "5000VA",
+                    power: "4000 Watt",
+                    inputVoltage: "130V - 280V AC (Single Phase)",
+                    outputVoltage: "220V ± 2%",
+                    waveForm: "Pure Sine Wave (Premium)",
+                    frequency: "50 Hz ± 0.1 Hz",
+                    transferTime: "≤ 2 millisecond (Ultra Sync)",
+                    batteryVoltage: "96V DC System Array",
+                    chargingCurrent: "30A (Max Power Charging)",
+                    efficiency: "> 85%",
+                    protection: "Ultimate Enterprise Protection Suite",
+                    display: "OLED High-Precision Interface",
+                    cooling: "Fluid-Dynamic Active Cooling"
                 }
             }
         ];
+
+        // Helper component for Product Images with Conditional UI
+        const ProductImage = ({ product, className }) => {
+            if (!product) return null;
+            const is600VA = product.va === 600;
+
+            if (is600VA && product.img) {
+                return (
+                    <div className={`${className} bg-[#0A0A0A] relative flex items-center justify-center overflow-hidden`}>
+                        <div className="absolute inset-0 grid-pattern opacity-10"></div>
+                        <img 
+                            src={product.img} 
+                            className="w-full h-full object-cover relative z-10 brightness-90 contrast-110" 
+                            loading="lazy" 
+                            alt={product.name}
+                            referrerPolicy="no-referrer"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-20"></div>
+                        <div className="absolute top-4 left-4 z-30 flex gap-2">
+                            <div className="text-[6px] font-mono text-[#F27D26] uppercase tracking-widest bg-black/60 px-1.5 py-0.5 rounded border border-[#F27D26]/20">UNIT_01</div>
+                            <div className="text-[6px] font-mono text-white/40 uppercase tracking-widest bg-black/40 px-1.5 py-0.5 rounded">AUTHENTIC_HW</div>
+                        </div>
+                    </div>
+                );
+            }
+
+            return (
+                <div className={`${className} bg-[#050505] flex flex-col items-center justify-center relative border-b border-white/5`}>
+                    <div className="absolute inset-0 grid-pattern opacity-10"></div>
+                    <div className="relative z-10 flex flex-col items-center text-center">
+                        <motion.div 
+                            animate={{ opacity: [0.3, 0.6, 0.3] }}
+                            transition={{ duration: 4, repeat: Infinity }}
+                            className="w-20 h-20 rounded-full border border-[#F27D26]/20 flex items-center justify-center mb-6 relative"
+                        >
+                            <div className="absolute inset-0 rounded-full border-t-2 border-[#F27D26]/40 animate-spin"></div>
+                            <Icon name="zap" size={32} className="text-[#F27D26] glow-text" />
+                        </motion.div>
+                        <div className="text-[10px] font-black tracking-[0.5em] text-slate-700 uppercase mb-2">Technical Core Unit</div>
+                        <div className="text-5xl font-black text-white tracking-tighter drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+                            {product.va}
+                            <span className="text-xl text-[#F27D26] ml-1">VA</span>
+                        </div>
+                        <div className="mt-4 px-4 py-1.5 rounded-full border border-white/5 bg-white/5 text-[8px] font-black text-slate-500 uppercase tracking-[0.3em]">
+                            System Architecture v.04
+                        </div>
+                    </div>
+                    <div className="absolute bottom-6 left-8 right-8 flex justify-between items-center opacity-20">
+                        <div className="text-[6px] font-mono text-slate-400 uppercase tracking-widest">MOD_ID: LP_{product.va}</div>
+                        <div className="text-[6px] font-mono text-slate-400 uppercase tracking-widest">VERIFIED_HARDWARE</div>
+                    </div>
+                </div>
+            );
+        };
 
         function Navbar({ cartCount, onCartClick, searchQuery, onSearchChange }) {
             return (
@@ -231,8 +353,19 @@
                             <motion.div whileHover={{ scale: 1.1, rotate: 10 }} className="w-10 h-10 bg-white rounded-full flex items-center justify-center shrink-0 shadow-2xl">
                                 <Icon name="zap" className="text-black fill-current" size={20} />
                             </motion.div>
-                            <div className="font-black tracking-[-0.05em] text-lg text-white leading-none">
-                                THE LEGEND <span className="text-[#F27D26]">POWER</span>
+                            <div className="flex flex-col">
+                                <motion.div 
+                                    className="font-black tracking-[-0.05em] text-lg leading-none"
+                                    animate={{ 
+                                        color: ["#ffffff", "#F27D26", "#ffffff"]
+                                    }}
+                                    transition={{ duration: 4, repeat: Infinity }}
+                                >
+                                    THE LEGEND
+                                </motion.div>
+                                <div className="text-[8px] font-black tracking-[0.4em] text-[#F27D26] uppercase -mt-0.5">
+                                    <span className="opacity-60">Power</span> Systems
+                                </div>
                             </div>
                         </div>
 
@@ -242,13 +375,13 @@
 
                         <div className="flex items-center gap-6 flex-1 justify-end max-w-[220px] md:max-w-sm ml-auto relative z-10">
                             <div className="relative flex-1 group">
-                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-600 pointer-events-none"><Icon name="search" size={14} /></div>
+                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none"><Icon name="search" size={14} /></div>
                                 <input 
                                     type="text" 
-                                    placeholder="SEARCH SYSTEMS..."
+                                    placeholder="SEARCH MODELS..."
                                     value={searchQuery}
                                     onChange={(e) => onSearchChange(e.target.value)}
-                                    className="w-full bg-white/20 border border-white/20 rounded-full py-2.5 pl-12 pr-6 text-sm font-bold focus:outline-none focus:border-[#F27D26] focus:bg-white/30 transition-all placeholder:text-slate-500 text-white shadow-inner"
+                                    className="w-full bg-black/60 border border-white/10 rounded-full py-2.5 pl-12 pr-4 text-sm font-bold tracking-tight focus:outline-none focus:border-[#F27D26] transition-all placeholder:text-slate-600 text-white"
                                 />
                             </div>
                             
@@ -274,10 +407,31 @@
                             <span className="w-1.5 h-1.5 bg-[#F27D26] rounded-full animate-pulse shadow-[0_0_8px_#F27D26]"></span>
                             <span className="text-[8px] font-black tracking-widest text-white/80 uppercase">Legend Performance Certified</span>
                         </motion.div>
-                        <h1 className="text-7xl md:text-[110px] font-black tracking-[-0.05em] mb-10 leading-[0.8] text-white">
-                            THE LEGEND <br />
-                            <span className="bg-clip-text text-transparent bg-gradient-to-b from-[#F27D26] to-[#FF8E3C] brightness-110 drop-shadow-[0_0_20px_rgba(242,125,38,0.4)]">POWER</span> <br />
-                            <span className="text-slate-900 drop-shadow-[0_0_1px_rgba(255,255,255,0.1)]">IPS & UPS.</span>
+                        <h1 className="text-7xl md:text-[110px] font-black tracking-[-0.1em] mb-10 leading-[0.8]">
+                            <motion.span 
+                                initial={{ opacity: 0, x: -50 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 1 }}
+                                className="text-white block"
+                            >
+                                THE LEGEND
+                            </motion.span>
+                            <motion.span 
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 1, delay: 0.3 }}
+                                className="bg-clip-text text-transparent bg-gradient-to-r from-[#F27D26] via-white to-[#F27D26] bg-[length:200%_auto] animate-gradient-text block py-4"
+                            >
+                                POWER
+                            </motion.span>
+                            <motion.span 
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 1, delay: 0.6 }}
+                                className="block text-2xl md:text-4xl text-white/20 tracking-[0.3em] font-black mt-4"
+                            >
+                                IPS <span className="text-[#F27D26]/40">&</span> UPS
+                            </motion.span>
                         </h1>
                         <p className="text-xl text-slate-400 mb-12 max-w-2xl leading-relaxed font-medium">
                             Engineered for those who demand uninterruptible excellence. <span className="text-white">Pure Sine Wave</span> architecture delivering architectural precision in power management.
@@ -299,9 +453,9 @@
                     className="industrial-card group flex flex-col h-full rounded-[2.5rem] relative overflow-hidden cursor-pointer"
                     onClick={() => onSelect(product)}
                 >
-                    <div className="relative aspect-[5/4] overflow-hidden bg-[#111] border-b border-white/5">
-                        <img src={product.img} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
-                        <div className="absolute top-5 left-5 z-20">
+                <div className="relative aspect-[5/4] overflow-hidden bg-[#111] border-b border-white/5">
+                    <ProductImage product={product} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+                    <div className="absolute top-5 left-5 z-20">
                             <div className="bg-white/10 backdrop-blur-md text-white text-[8px] font-black px-3 py-1 rounded-full uppercase tracking-[0.2em] shadow-2xl border border-white/10">
                                 Series V.04
                             </div>
@@ -329,14 +483,10 @@
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-px bg-white/5 p-px rounded-2xl overflow-hidden mb-8">
+                        <div className="grid grid-cols-1 gap-px bg-white/5 p-px rounded-2xl overflow-hidden mb-8">
                             <div className="bg-black/60 p-5">
                                 <div className="text-[8px] font-black tracking-widest text-slate-700 uppercase mb-2">Rating</div>
-                                <div className="text-2xl font-mono font-black text-white">{product.va}<span className="text-[10px] text-slate-600 ml-1 uppercase">va</span></div>
-                            </div>
-                            <div className="bg-black/60 p-5">
-                                <div className="text-[8px] font-black tracking-widest text-slate-700 uppercase mb-2">Output</div>
-                                <div className="text-2xl font-mono font-black text-white">{product.watts}<span className="text-[10px] text-slate-600 ml-1 uppercase">w</span></div>
+                                <div className="text-2xl font-mono font-black text-white">{product.va}<span className="text-[10px] text-slate-600 mx-1">/</span>{product.watts}<span className="text-[10px] text-slate-600 ml-1 uppercase">w</span></div>
                             </div>
                         </div>
 
@@ -370,7 +520,7 @@
                     >
                         <div className="noise-overlay"></div>
                         <div className="w-full md:w-1/2 aspect-square md:aspect-auto bg-[#111] sticky top-0 md:h-[90vh] z-20 overflow-hidden">
-                            <img src={product.img} className="w-full h-full object-cover opacity-80" />
+                            <ProductImage product={product} className="w-full h-full object-cover opacity-80" />
                             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
                         </div>
                         <div className="w-full md:w-1/2 p-10 flex flex-col items-start bg-black/40">
@@ -390,18 +540,18 @@
                             </div>
                             
                             <h2 className="text-4xl font-black mb-2 tracking-tight text-white">{product.name}</h2>
-                            <div className="text-2xl font-mono font-black text-slate-500 mb-8 tracking-tighter">
-                                {product.va}VA / {product.watts}W
+                            <div className="text-2xl font-mono font-black text-white mb-8 tracking-tighter">
+                                {product.va}VA <span className="text-[#F27D26]/60 mx-1">/</span> {product.watts}W Rated Power
                             </div>
 
-                            <div className="grid grid-cols-1 gap-6 mb-8 w-full">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 mb-10 w-full pr-2 overflow-y-auto max-h-[40vh] md:max-h-full">
                                 {Object.entries(product.specs).map(([key, value]) => (
                                     <div key={key} className="flex items-center gap-4 group">
                                         <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 group-hover:text-[#F27D26] transition-colors">
                                             <Icon name="activity" size={18} />
                                         </div>
                                         <div>
-                                            <div className="text-[8px] font-black text-slate-600 uppercase tracking-widest">{key.replace(/([A-Z])/g, ' $1')}</div>
+                                            <div className="text-[8px] font-black text-slate-600 uppercase tracking-[0.2em]">{key.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase())}</div>
                                             <div className="text-sm font-bold text-white tracking-tight">{value}</div>
                                         </div>
                                     </div>
@@ -450,6 +600,21 @@
                     if (existing) return prev.map(item => item.id === product.id ? {...item, quantity: item.quantity + 1} : item);
                     return [...prev, {...product, quantity: 1}];
                 });
+                setIsCartOpen(true);
+            };
+
+            const removeFromCart = (productId) => {
+                setCart(prev => prev.filter(item => item.id !== productId));
+            };
+
+            const updateQuantity = (productId, delta) => {
+                setCart(prev => prev.map(item => {
+                    if (item.id === productId) {
+                        const newQty = Math.max(1, item.quantity + delta);
+                        return { ...item, quantity: newQty };
+                    }
+                    return item;
+                }));
             };
 
             const filteredProducts = PRODUCTS.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -491,17 +656,52 @@
                                         <h2 className="text-2xl font-black text-white uppercase tracking-tight">System Cart</h2>
                                         <button onClick={() => setIsCartOpen(false)} className="text-slate-500 hover:text-white"><Icon name="x" size={24} /></button>
                                     </div>
-                                    <div className="flex-1 overflow-y-auto">
-                                        {cart.length === 0 ? <div className="py-20 text-center text-slate-700 font-black text-xs tracking-widest uppercase">Cart Empty</div> : cart.map(item => (
-                                            <div key={item.id} className="flex gap-4 mb-6 pb-6 border-b border-white/5">
-                                                <div className="w-20 h-20 bg-white/5 rounded-xl overflow-hidden shrink-0"><img src={item.img} className="w-full h-full object-cover opacity-80" /></div>
-                                                <div className="flex-1">
-                                                    <h3 className="text-white font-black text-sm mb-1">{item.name}</h3>
-                                                    <div className="text-xs text-slate-500 mb-2">{item.va}VA • {item.quantity} units</div>
-                                                    <div className="text-[#F27D26] font-mono font-bold">৳{(item.price * item.quantity).toLocaleString()}</div>
+                                    <div className="flex-1 overflow-y-auto pr-2">
+                                        {cart.length === 0 ? (
+                                            <div className="py-20 text-center text-slate-700 font-black text-xs tracking-widest uppercase">Cart Empty</div>
+                                        ) : (
+                                            cart.map(item => (
+                                                <div key={item.id} className="flex gap-4 mb-8 pb-8 border-b border-white/5 last:border-0">
+                                                    <div className="w-20 h-20 bg-white/5 rounded-2xl overflow-hidden shrink-0 border border-white/5">
+                                                        <ProductImage product={item} className="w-full h-full object-cover" />
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <div className="flex justify-between items-start mb-2">
+                                                            <h3 className="text-white font-black text-base truncate pr-4">{item.name}</h3>
+                                                            <button 
+                                                                onClick={() => removeFromCart(item.id)}
+                                                                className="text-slate-600 hover:text-red-500 transition-colors shrink-0"
+                                                            >
+                                                                <Icon name="trash-2" size={16} />
+                                                            </button>
+                                                        </div>
+                                                        <div className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-4">
+                                                            {item.va}VA Rating
+                                                        </div>
+                                                        <div className="flex items-center justify-between">
+                                                            <div className="flex items-center gap-3 bg-white/5 rounded-full p-1 border border-white/10">
+                                                                <button 
+                                                                    onClick={() => updateQuantity(item.id, -1)}
+                                                                    className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10 text-white transition-colors"
+                                                                >
+                                                                    <Icon name="minus" size={14} />
+                                                                </button>
+                                                                <span className="text-sm font-mono font-black text-white px-2">{item.quantity}</span>
+                                                                <button 
+                                                                    onClick={() => updateQuantity(item.id, 1)}
+                                                                    className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10 text-white transition-colors"
+                                                                >
+                                                                    <Icon name="plus" size={14} />
+                                                                </button>
+                                                            </div>
+                                                            <div className="text-[#F27D26] font-mono font-black text-lg">
+                                                                ৳{(item.price * item.quantity).toLocaleString()}
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        ))}
+                                            ))
+                                        )}
                                     </div>
                                     <div className="mt-8 pt-8 border-t border-white/10">
                                         <div className="flex justify-between items-end mb-8">
@@ -537,12 +737,39 @@
                                     </ul>
                                 </div>
                                 <div className="text-right">
-                                    <h4 className="text-[8px] font-black text-slate-500 uppercase tracking-[0.4em] mb-8">System Hub</h4>
-                                    <div className="text-right text-xs font-bold text-slate-500 mb-2 uppercase">Feni Head HQ</div>
-                                    <a href="tel:+8801619288205" className="block text-right text-xs font-bold text-white uppercase mb-4 hover:text-[#F27D26] transition-colors">+8801619-288205</a>
-                                    <a href="https://www.facebook.com/share/1CMc8a93N2/?mibextid=wwXIfr" target="_blank" className="inline-flex items-center gap-2 text-[8px] font-black text-slate-500 hover:text-white transition-all uppercase tracking-widest">
-                                        <Icon name="facebook" size={14} /> Official Page
-                                    </a>
+                                    <h4 className="text-[8px] font-black text-white/40 uppercase tracking-[0.4em] mb-8">Base of Operations</h4>
+                                    
+                                    <motion.div 
+                                        animate={{ 
+                                            y: [0, -5, 0],
+                                        }}
+                                        transition={{ 
+                                            duration: 4, 
+                                            repeat: Infinity, 
+                                            ease: "easeInOut" 
+                                        }}
+                                        className="mb-8"
+                                    >
+                                        <div className="text-[10px] font-black text-[#F27D26] mb-2 uppercase tracking-widest opacity-80">Feni Headquarters</div>
+                                        <div className="text-sm font-black tracking-tight leading-tight">
+                                            <span className="bg-gradient-to-r from-white via-[#F27D26] to-[#FFB27A] bg-[length:200%_auto] animate-gradient-text bg-clip-text text-transparent">
+                                                Circuit House Road,<br />
+                                                Mohipal, Feni.
+                                            </span>
+                                        </div>
+                                    </motion.div>
+
+                                    <div className="flex flex-col items-end gap-6">
+                                        <a href="tel:+8801619288205" className="inline-flex items-center gap-2 text-xs font-black text-white uppercase group">
+                                            <span className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-[#F27D26] group-hover:text-black transition-all">
+                                                <Icon name="phone" size={12} />
+                                            </span>
+                                            +8801619-288205
+                                        </a>
+                                        <a href="https://www.facebook.com/share/1CMc8a93N2/?mibextid=wwXIfr" target="_blank" className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-500 hover:text-white hover:border-[#F27D26]/50 transition-all shadow-[0_0_15px_rgba(242,125,38,0.1)]">
+                                            <Icon name="facebook" size={18} />
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

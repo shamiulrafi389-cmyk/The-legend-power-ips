@@ -4,35 +4,35 @@ import { ArrowRight, ShieldCheck, Activity, Cpu } from 'lucide-react';
 export function Hero() {
   return (
     <section className="relative pt-32 pb-20 px-4 overflow-hidden grid-pattern">
+      <div className="noise-overlay" />
       {/* Background elements */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 opacity-30 pointer-events-none">
-        <div className="absolute top-20 left-1/4 w-[500px] h-[500px] bg-brand blur-[150px] rounded-full opacity-20 animate-pulse" />
-        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-blue-600 blur-[150px] rounded-full opacity-10" />
+        <div className="absolute top-20 left-1/4 w-[600px] h-[600px] bg-brand blur-[180px] rounded-full opacity-20 animate-pulse" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-600 blur-[180px] rounded-full opacity-10" />
       </div>
 
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         >
           <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2 }}
-            className="inline-flex items-center gap-3 bg-surface/50 backdrop-blur border border-border px-4 py-1.5 rounded-full mb-8 shadow-inner"
+            transition={{ delay: 0.4 }}
+            className="inline-flex items-center gap-3 bg-surface/30 backdrop-blur-md border border-white/5 px-4 py-1.5 rounded-full mb-10 shadow-2xl"
           >
-            <div className="flex -space-x-2">
-              <div className="w-2 h-2 bg-brand rounded-full animate-ping" />
-              <div className="w-2 h-2 bg-brand rounded-full" />
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 bg-brand rounded-full animate-pulse" />
+              <span className="tech-label text-brand/80">Premium Component Verified</span>
             </div>
-            <span className="tech-label text-slate-300">System Link: Active [2ms]</span>
           </motion.div>
           
-          <h1 className="text-6xl md:text-8xl font-black font-sans tracking-tight mb-8 leading-[0.85]">
-            ENERGY <br />
-            <span className="text-brand glow-text">LEGEND</span> <br />
-            <span className="text-slate-500">DEFINED.</span>
+          <h1 className="text-7xl md:text-[100px] font-black font-sans tracking-[ -0.04em] mb-10 leading-[0.8]">
+            THE LEGEND <br />
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-brand to-brand-light glow-text">POWER</span> <br />
+            <span className="text-slate-800">IPS & UPS.</span>
           </h1>
           
           <p className="text-xl text-slate-400 mb-10 max-w-lg leading-relaxed font-medium">

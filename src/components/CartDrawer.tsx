@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
+import { X, Trash2, Plus, Minus, ShoppingBag, Loader2 } from 'lucide-react';
 import { CartItem } from '../types';
 
 interface CartDrawerProps {
@@ -11,7 +12,17 @@ interface CartDrawerProps {
 }
 
 export function CartDrawer({ isOpen, onClose, items, onRemove, onUpdateQty }: CartDrawerProps) {
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
   const total = items.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+
+  const handleCheckout = () => {
+    setIsCheckingOut(true);
+    // Simulate checkout process
+    setTimeout(() => {
+      setIsCheckingOut(false);
+      alert('Checkout sequence initialized successfully.');
+    }, 2000);
+  };
 
   return (
     <AnimatePresence>
@@ -115,8 +126,19 @@ export function CartDrawer({ isOpen, onClose, items, onRemove, onUpdateQty }: Ca
                     ৳{total.toLocaleString()}
                   </div>
                 </div>
-                <button className="btn-primary w-full text-center">
-                  Initialize Checkout Sequence
+                <button 
+                  onClick={handleCheckout}
+                  disabled={isCheckingOut}
+                  className="btn-primary w-full flex items-center justify-center gap-2"
+                >
+                  {isCheckingOut ? (
+                    <>
+                      <Loader2 size={18} className="animate-spin" />
+                      Syncing With System...
+                    </>
+                  ) : (
+                    'Initialize Checkout Sequence'
+                  )}
                 </button>
               </div>
             )}

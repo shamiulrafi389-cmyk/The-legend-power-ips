@@ -7,11 +7,43 @@ import { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { ProductCard } from './components/ProductCard';
+import { ProductDetail } from './components/ProductDetail';
 import { CartDrawer } from './components/CartDrawer';
 import { Footer } from './components/Footer';
 import { Product, CartItem } from './types';
 import { motion, AnimatePresence } from 'motion/react';
 import { Activity } from 'lucide-react';
+
+function ProductSkeleton() {
+  return (
+    <div className="industrial-card h-[450px] bg-surface-accent flex flex-col">
+      <div className="relative aspect-[5/4] bg-bg-dark/40 animate-pulse" />
+      <div className="p-7 flex-1 space-y-6">
+        <div className="flex justify-between items-start">
+          <div className="space-y-2 flex-1">
+            <div className="h-2 w-20 bg-border rounded animate-pulse" />
+            <div className="h-6 w-3/4 bg-border rounded animate-pulse" />
+          </div>
+          <div className="w-8 h-8 rounded-lg bg-border animate-pulse" />
+        </div>
+        <div className="grid grid-cols-2 gap-4 bg-border p-4 rounded-xl">
+          <div className="space-y-2">
+            <div className="h-2 w-10 bg-bg-dark rounded animate-pulse" />
+            <div className="h-4 w-16 bg-bg-dark rounded animate-pulse" />
+          </div>
+          <div className="space-y-2">
+            <div className="h-2 w-10 bg-bg-dark rounded animate-pulse" />
+            <div className="h-4 w-16 bg-bg-dark rounded animate-pulse" />
+          </div>
+        </div>
+        <div className="pt-6 flex justify-between items-center">
+          <div className="h-8 w-24 bg-border rounded animate-pulse" />
+          <div className="w-14 h-14 bg-border rounded-2xl animate-pulse" />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function App() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -19,6 +51,7 @@ export default function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   useEffect(() => {
     fetch('/api/products')
@@ -71,7 +104,10 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen selection:bg-[#F27D26] selection:text-black">
+    <div className="min-h-screen selection:bg-brand selection:text-black relative">
+      <div className="noise-overlay fixed inset-0 z-[100] opacity-[0.02]" />
+      <div className="fixed inset-0 pointer-events-none z-[99] shadow-[inset_0_0_150px_rgba(0,0,0,0.5)]" />
+      
       <Navbar 
         cartCount={cart.reduce((acc, item) => acc + item.quantity, 0)} 
         onCartClick={() => setIsCartOpen(true)}
@@ -99,7 +135,7 @@ export default function App() {
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {[...Array(8)].map((_, i) => (
-                <div key={i} className="industrial-card h-[450px] animate-pulse bg-surface-accent" />
+                <ProductSkeleton key={i} />
               ))}
             </div>
           ) : (
@@ -109,13 +145,14 @@ export default function App() {
                 show: {
                   opacity: 1,
                   transition: {
-                    staggerChildren: 0.1
+                    staggerChildren: 0.15,
+                    delayChildren: 0.2
                   }
                 }
               }}
               initial="hidden"
               whileInView="show"
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-100px" }}
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
             >
               <AnimatePresence mode="popLayout">
@@ -123,7 +160,8 @@ export default function App() {
                   <ProductCard 
                     key={product.id} 
                     product={product} 
-                    onAdd={addToCart} 
+                    onAdd={addToCart}
+                    onSelect={setSelectedProduct}
                   />
                 ))}
               </AnimatePresence>
@@ -160,6 +198,12 @@ export default function App() {
         items={cart} 
         onRemove={removeFromCart}
         onUpdateQty={updateQuantity}
+      />
+
+      <ProductDetail 
+        product={selectedProduct}
+        onClose={() => setSelectedProduct(null)}
+        onAdd={addToCart}
       />
     </div>
   );

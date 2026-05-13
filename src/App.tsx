@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { ProductCard } from './components/ProductCard';
@@ -13,60 +13,15 @@ import { Footer } from './components/Footer';
 import { Product, CartItem } from './types';
 import { motion, AnimatePresence } from 'motion/react';
 import { Activity } from 'lucide-react';
-
-function ProductSkeleton() {
-  return (
-    <div className="industrial-card h-[450px] bg-surface-accent flex flex-col">
-      <div className="relative aspect-[5/4] bg-bg-dark/40 animate-pulse" />
-      <div className="p-7 flex-1 space-y-6">
-        <div className="flex justify-between items-start">
-          <div className="space-y-2 flex-1">
-            <div className="h-2 w-20 bg-border rounded animate-pulse" />
-            <div className="h-6 w-3/4 bg-border rounded animate-pulse" />
-          </div>
-          <div className="w-8 h-8 rounded-lg bg-border animate-pulse" />
-        </div>
-        <div className="grid grid-cols-2 gap-4 bg-border p-4 rounded-xl">
-          <div className="space-y-2">
-            <div className="h-2 w-10 bg-bg-dark rounded animate-pulse" />
-            <div className="h-4 w-16 bg-bg-dark rounded animate-pulse" />
-          </div>
-          <div className="space-y-2">
-            <div className="h-2 w-10 bg-bg-dark rounded animate-pulse" />
-            <div className="h-4 w-16 bg-bg-dark rounded animate-pulse" />
-          </div>
-        </div>
-        <div className="pt-6 flex justify-between items-center">
-          <div className="h-8 w-24 bg-border rounded animate-pulse" />
-          <div className="w-14 h-14 bg-border rounded-2xl animate-pulse" />
-        </div>
-      </div>
-    </div>
-  );
-}
+import { PRODUCTS } from './constants';
 
 export default function App() {
-  const [products, setProducts] = useState<Product[]>([]);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  useEffect(() => {
-    fetch('/api/products')
-      .then(res => res.json())
-      .then(data => {
-        setProducts(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error('Failed to fetch products:', err);
-        setLoading(false);
-      });
-  }, []);
-
-  const filteredProducts = products.filter(product => {
+  const filteredProducts = PRODUCTS.filter(product => {
     const query = searchQuery.trim().toLowerCase();
     if (!query) return true;
     return (
@@ -132,61 +87,53 @@ export default function App() {
             </p>
           </div>
 
-          {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {[...Array(8)].map((_, i) => (
-                <ProductSkeleton key={i} />
-              ))}
-            </div>
-          ) : (
-            <motion.div 
-              variants={{
-                hidden: { opacity: 0 },
-                show: {
-                  opacity: 1,
-                  transition: {
-                    staggerChildren: 0.15,
-                    delayChildren: 0.2
-                  }
+          <motion.div 
+            variants={{
+              hidden: { opacity: 0 },
+              show: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.15,
+                  delayChildren: 0.2
                 }
-              }}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: "-100px" }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
-            >
-              <AnimatePresence mode="popLayout">
-                {filteredProducts.map((product) => (
-                  <ProductCard 
-                    key={product.id} 
-                    product={product} 
-                    onAdd={addToCart}
-                    onSelect={setSelectedProduct}
-                  />
-                ))}
-              </AnimatePresence>
-              {filteredProducts.length === 0 && (
-                <motion.div 
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="col-span-full py-32 text-center border-2 border-dashed border-border rounded-3xl bg-surface/30 px-6"
+              }
+            }}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+          >
+            <AnimatePresence mode="popLayout">
+              {filteredProducts.map((product) => (
+                <ProductCard 
+                  key={product.id} 
+                  product={product} 
+                  onAdd={addToCart}
+                  onSelect={setSelectedProduct}
+                />
+              ))}
+            </AnimatePresence>
+            {filteredProducts.length === 0 && (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="col-span-full py-32 text-center border-2 border-dashed border-border rounded-3xl bg-surface/30 px-6"
+              >
+                <div className="w-20 h-20 bg-surface border border-border rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-2xl">
+                  <Activity size={32} className="text-slate-700" />
+                </div>
+                <div className="tech-label mb-3 text-brand">Null Result Error</div>
+                <h3 className="text-2xl font-bold mb-4 tracking-tight">System Archive Search Empty</h3>
+                <p className="text-slate-500 max-w-sm mx-auto">Our logs show no hardware units matching your current filter parameters. Try another query.</p>
+                <button 
+                  onClick={() => setSearchQuery('')}
+                  className="mt-8 text-brand font-bold uppercase text-xs tracking-widest hover:underline"
                 >
-                  <div className="w-20 h-20 bg-surface border border-border rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-2xl">
-                    <Activity size={32} className="text-slate-700" />
-                  </div>
-                  <div className="tech-label mb-3 text-brand">Null Result Error</div>
-                  <h3 className="text-2xl font-bold mb-4 tracking-tight">System Archive Search Empty</h3>
-                  <p className="text-slate-500 max-w-sm mx-auto">Our logs show no hardware units matching your current filter parameters. Try another query.</p>
-                  <button 
-                    onClick={() => setSearchQuery('')}
-                    className="mt-8 text-brand font-bold uppercase text-xs tracking-widest hover:underline"
-                  >
-                    Reset Grid Monitor
-                  </button>
-                </motion.div>
-              )}
-            </motion.div>
-          )}
+                  Reset Grid Monitor
+                </button>
+              </motion.div>
+            )}
+          </motion.div>
         </section>
       </main>
 

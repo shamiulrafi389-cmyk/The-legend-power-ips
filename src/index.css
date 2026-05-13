@@ -6,84 +6,71 @@
   
   --color-brand: #F27D26;
   --color-brand-light: #FF8E3C;
-  --color-bg-dark: #0B0C0E;
-  --color-surface: #151619;
-  --color-surface-accent: #1C1E22;
-  --color-border: #2A2C32;
+  --color-bg-dark: #000000;
+  --color-surface: #0A0A0A;
+  --color-surface-accent: #111111;
+  --color-border: #1F1F1F;
 }
 
 @layer base {
   body {
     @apply bg-bg-dark text-slate-100 antialiased selection:bg-brand selection:text-black;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 }
 
 @layer components {
   .noise-overlay {
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    mask-image: radial-gradient(circle, white, transparent);
-    @apply absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    @apply absolute inset-0 opacity-[0.03] pointer-events-none;
   }
 
   .glass-panel {
-    background-color: color-mix(in srgb, var(--color-surface) 60%, transparent);
-    backdrop-filter: blur(32px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 0 32px rgba(255, 255, 255, 0.01);
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.8), 0 10px 30px -10px rgba(0,0,0,0.5);
   }
 
   .industrial-card {
-    background-color: color-mix(in srgb, var(--color-surface) 40%, transparent);
-    backdrop-filter: blur(24px);
-    border: 1px solid rgba(255, 255, 255, 0.03);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    border-radius: 2rem;
-    overflow: hidden;
-    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    @apply relative bg-surface border border-border rounded-3xl overflow-hidden transition-all duration-700;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.02);
   }
   
   .industrial-card:hover {
-    border-color: color-mix(in srgb, var(--color-brand) 30%, transparent);
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), 0 0 20px color-mix(in srgb, var(--color-brand) 10%, transparent);
+    @apply border-brand/50 -translate-y-2;
+    box-shadow: 0 20px 40px -20px rgba(0,0,0,0.8), 0 0 20px rgba(242,125,38,0.05);
   }
 
   .glow-border {
-    position: relative;
+    @apply relative;
   }
 
-  .glow-border::after {
+  .glow-border::before {
     content: '';
-    position: absolute;
-    inset: -1px;
-    background: linear-gradient(45deg, transparent, var(--color-brand), transparent);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity 0.3s;
-    border-radius: inherit;
-    pointer-events: none;
+    @apply absolute inset-0 rounded-[inherit] border border-brand/0 transition-all duration-700 pointer-events-none;
   }
 
-  .glow-border:hover::after {
-    opacity: 0.5;
+  .glow-border:hover::before {
+    @apply border-brand/30 shadow-[0_0_15px_rgba(242,125,38,0.1)];
   }
   
   .tech-label {
-    @apply font-mono text-[9px] uppercase tracking-[0.3em] text-slate-500 font-black;
+    @apply font-mono text-[8px] uppercase tracking-[0.4em] text-slate-500 font-black;
   }
   
   .btn-primary {
-    @apply relative overflow-hidden bg-brand hover:bg-brand-light text-black font-extrabold px-8 py-4 rounded-xl transition-all active:scale-95 cursor-pointer shadow-[0_0_20px_rgba(242,125,38,0.2)] hover:shadow-[0_0_30px_rgba(242,125,38,0.4)];
+    @apply relative overflow-hidden bg-white text-black font-black px-10 py-4 rounded-full transition-all active:scale-95 cursor-pointer shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:bg-brand hover:text-black;
   }
 
   .glow-text {
-    @apply [text-shadow:0_0_15px_rgba(242,125,38,0.3)];
+    @apply [text-shadow:0_0_20px_rgba(242,125,38,0.2)];
   }
 
   .grid-pattern {
-    background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.05) 1px, transparent 0);
-    background-size: 40px 40px;
+    background-image: 
+      linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 64px 64px;
   }
 }

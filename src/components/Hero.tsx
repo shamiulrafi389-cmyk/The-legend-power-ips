@@ -12,7 +12,7 @@ export function Hero() {
       </div>
 
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-        <motion.div
+        <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
@@ -21,35 +21,35 @@ export function Hero() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4 }}
-            className="inline-flex items-center gap-3 bg-surface/30 backdrop-blur-md border border-white/5 px-4 py-1.5 rounded-full mb-10 shadow-2xl"
+            className="inline-flex items-center gap-3 bg-white/5 backdrop-blur-md border border-white/10 px-4 py-1.5 rounded-full mb-10 shadow-2xl"
           >
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 bg-brand rounded-full animate-pulse" />
-              <span className="tech-label text-brand/80">Premium Component Verified</span>
+              <span className="w-1.5 h-1.5 bg-brand rounded-full animate-pulse shadow-[0_0_8px_#F27D26]" />
+              <span className="tech-label text-white/80">Legend Performance Certified</span>
             </div>
           </motion.div>
           
-          <h1 className="text-7xl md:text-[100px] font-black font-sans tracking-[ -0.04em] mb-10 leading-[0.8]">
+          <h1 className="text-7xl md:text-[110px] font-black font-sans tracking-[-0.05em] mb-10 leading-[0.8] text-white">
             THE LEGEND <br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-brand to-brand-light glow-text">POWER</span> <br />
-            <span className="text-slate-800">IPS & UPS.</span>
+            <span className="bg-clip-text text-transparent bg-gradient-to-b from-brand to-brand-light brightness-125 glow-text">POWER</span> <br />
+            <span className="text-slate-900 drop-shadow-[0_0_1px_rgba(255,255,255,0.1)]">IPS & UPS.</span>
           </h1>
           
-          <p className="text-xl text-slate-400 mb-10 max-w-lg leading-relaxed font-medium">
-            Next-gen uninterruptible power systems. <span className="text-white">Pure Sine Wave</span> architecture designed to protect your most critical hardware.
+          <p className="text-xl text-slate-400 mb-12 max-w-lg leading-relaxed font-medium">
+            Engineered for the elite. <span className="text-white">Pure Sine Wave</span> architecture delivering architectural precision in power management.
           </p>
           
-          <div className="flex flex-wrap gap-5">
+          <div className="flex flex-wrap gap-6">
             <motion.a 
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(242,125,38,0.3)" }}
               whileTap={{ scale: 0.98 }}
               href="#products" 
-              className="btn-primary flex items-center gap-3 group"
+              className="btn-primary flex items-center gap-3 group !bg-white !text-black hover:!bg-brand"
             >
-              Get Started <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+              System Inventory <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </motion.a>
-            <button className="px-8 py-4 bg-surface border border-border rounded-xl font-bold hover:bg-white hover:text-black transition-all duration-300">
-              Technical Datasheet
+            <button className="px-8 py-4 bg-transparent border border-white/10 rounded-full font-bold hover:bg-white hover:text-black transition-all duration-300">
+              Technical Archive
             </button>
           </div>
 

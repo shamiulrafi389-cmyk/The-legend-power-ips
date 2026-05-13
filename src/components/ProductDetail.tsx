@@ -37,12 +37,12 @@ export function ProductDetail({ product, onClose, onAdd }: ProductDetailProps) {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="glass-panel w-full max-w-4xl max-h-[90vh] overflow-hidden rounded-[2.5rem] relative z-10 flex flex-col md:flex-row shadow-[0_0_100px_rgba(0,0,0,0.8)] border-white/10"
+            className="glass-panel w-full max-w-4xl max-h-[90vh] overflow-y-auto md:overflow-hidden rounded-[2.5rem] relative z-10 flex flex-col md:flex-row shadow-[0_0_100px_rgba(0,0,0,0.8)] border-white/10"
           >
             <div className="noise-overlay" />
             
             {/* Image Section */}
-            <div className="w-full md:w-1/2 aspect-square md:aspect-auto bg-surface-accent relative overflow-hidden">
+            <div className="w-full md:w-1/2 aspect-square md:aspect-auto bg-surface-accent sticky top-0 md:h-[90vh] z-20 overflow-hidden">
               <img 
                 src={product.img} 
                 alt={product.name} 
@@ -81,13 +81,25 @@ export function ProductDetail({ product, onClose, onAdd }: ProductDetailProps) {
                 {product.va}VA / {product.watts}W
               </div>
 
-              <div className="grid grid-cols-1 gap-6 mb-10">
+              <div className="grid grid-cols-1 gap-6 mb-8">
                 <SpecItem icon={<Shield size={18} />} label="Surge Protection" value={specs.surgeProtection} />
                 <SpecItem icon={<Clock size={18} />} label="Transfer Time" value={specs.transferTime} />
                 <SpecItem icon={<Activity size={18} />} label="Efficiency" value={specs.efficiency} />
                 <SpecItem icon={<Thermometer size={18} />} label="Operating Temp" value={specs.operatingTemp} />
                 <SpecItem icon={<Battery size={18} />} label="Battery Config" value={specs.batteryType} />
                 <SpecItem icon={<Zap size={18} />} label="Wave Form" value={specs.waveForm} />
+              </div>
+
+              {/* Warranty Section */}
+              <div className="mb-10 p-6 rounded-3xl bg-white/[0.02] border border-white/5 flex items-center gap-6 group hover:border-brand/30 transition-all duration-500">
+                <div className="w-14 h-14 rounded-2xl bg-brand text-black flex items-center justify-center shrink-0 shadow-[0_0_20px_rgba(242,125,38,0.2)] group-hover:scale-110 transition-transform">
+                  <Shield size={28} className="stroke-[2.5]" />
+                </div>
+                <div>
+                  <div className="tech-label text-brand mb-1">Protection Protocol</div>
+                  <div className="text-xl font-black text-white tracking-tight">2 Year Standard Warranty</div>
+                  <div className="text-[10px] uppercase font-bold tracking-widest text-slate-500 mt-1">Certified Legend Support Included</div>
+                </div>
               </div>
 
               <div className="flex items-center justify-between mt-auto pt-8 border-t border-white/5">
